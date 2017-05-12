@@ -11,7 +11,19 @@ namespace Aula1105
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+                txtData.Text = DateTime.Now.ToString();
+        }
 
+        protected void btnSalvar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void calDataInicio_SelectionChanged(object sender, EventArgs e)
+        {
+            DateTime data = calDataInicio.SelectedDate;
+            txtData.Text = data.Day + "/" + data.Month + "/" + data.Year;
         }
     }
 }
