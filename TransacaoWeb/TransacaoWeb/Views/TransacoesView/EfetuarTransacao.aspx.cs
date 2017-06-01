@@ -32,7 +32,11 @@ namespace TransacaoWeb.Views.TransacoesView
                 };
                 TransacaoController.EfetuarTransacao(transacao);
             }
-            catch (Exception) { }
+            catch (Exception ex)
+            {
+                msg.Visible = true;
+                msg.InnerHtml += "Erro ao efetuar transação: " + ex.Message;
+            }
         }
     }
 }

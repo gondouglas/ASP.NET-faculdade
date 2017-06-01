@@ -44,4 +44,11 @@
 
 
 
+    <br />
+    <br />
+
+    <div id="msg" runat="server" class="alert alert-warning alert-dismissible" role="alert" visible="false">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+
 </asp:Content>
