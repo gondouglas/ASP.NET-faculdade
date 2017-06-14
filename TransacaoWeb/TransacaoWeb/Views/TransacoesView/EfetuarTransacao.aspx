@@ -5,7 +5,7 @@
     <h1>Efetuar transação</h1>
 
     <h2>Origem</h2>
-    <table>
+    <table class="row">
         <tr>
 
             <td>
