@@ -1,0 +1,64 @@
+﻿@model EntityModels.Estadia
+
+@{
+    ViewBag.Title = "Remover";
+}
+
+<h2>Remover</h2>
+
+<h3>Você tem certeza que deseja remover isto?</h3>
+<div>
+    <h4>Estadia</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model._Hospede.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model._Hospede.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model._Quarto.Numero)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model._Quarto.Numero)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Inicio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Inicio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Final)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Final)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QuantidadeDias)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QuantidadeDias)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Voltar para a lista", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,50 @@
+﻿@model EntityModels.Quarto
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Quarto</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Numero)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Numero)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Andar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Andar)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValorDiaria)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValorDiaria)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ocupado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ocupado)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

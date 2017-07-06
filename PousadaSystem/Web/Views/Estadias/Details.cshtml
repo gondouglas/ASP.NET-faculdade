@@ -1,0 +1,66 @@
+﻿@model EntityModels.Estadia
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Estadia</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model._Hospede.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model._Hospede.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model._Quarto.Numero)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model._Quarto.Numero)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Inicio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Inicio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Final)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Final)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QuantidadeDias)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QuantidadeDias)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValorTotal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValorTotal)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
