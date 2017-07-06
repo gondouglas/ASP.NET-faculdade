@@ -8,6 +8,9 @@ namespace TransacaoWeb.Models
 {
     public class Context : DbContext
     {
+        public Context() : base("TransacaoDB")
+        {
+        }
         public DbSet<Conta> Contas { get; set; }
         public DbSet<Cartao> Cartoes { get; set; }
         public DbSet<Transacao> Transacao { get; set; }
