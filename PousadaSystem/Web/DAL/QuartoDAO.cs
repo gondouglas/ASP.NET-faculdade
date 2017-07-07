@@ -1,32 +1,30 @@
 ﻿using EntityModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using Web.Models;
 
 namespace Web.DAL
 {
     public class QuartoDAO : EntityBaseDAO<Quarto>
     {
-        public static Quarto getByNumero(string numero, Context context)
+        public Quarto getByNumero(string numero)
         {
-            return context.Quartos.Where(x => x.Numero.Equals(numero)).FirstOrDefault();
+            
+            return ctx.Quartos.Where(x => x.Numero.Equals(numero)).FirstOrDefault();
         }
 
-        public static IEnumerable<Quarto> getByAndar(string andar, Context context)
+        public IEnumerable<Quarto> getByAndar(string andar)
         {
-            return context.Quartos.Where(x => x.Andar.Equals(andar)).ToList();
+            return ctx.Quartos.Where(x => x.Andar.Equals(andar)).ToList();
         }
 
-        public static IEnumerable<Quarto> getOcupados(Context context)
+        public IEnumerable<Quarto> getOcupados()
         {
-            return context.Quartos.Where(x => x.Ocupado == true);
+            return ctx.Quartos.Where(x => x.Ocupado == true);
         }
 
-        public static IEnumerable<Quarto> getLivres(Context context)
+        public IEnumerable<Quarto> getLivres()
         {
-            return context.Quartos.Where(x => x.Ocupado == false);
+            return ctx.Quartos.Where(x => x.Ocupado == false);
         }
 
         

@@ -1,24 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using EntityModels;
-using Web.Models;
 using Web.DAL;
+using System.Linq;
 
 namespace Web.Controllers
 {
     public class HospedesController : Controller
     {
-        Context ctx = new Context();
+        private readonly EstadiaDAO estadiaDAO = new EstadiaDAO();
+        private readonly HospedeDAO hospedeDAO = new HospedeDAO();
+        private readonly QuartoDAO quartoDAO = new QuartoDAO();
+
         // GET: Hospedes
         public ActionResult Index()
         {
-            return View(HospedeDAO.getList(ctx));
+            return View(hospedeDAO.getDeletados(false).ToList());
         }
 
         // GET: Hospedes/Details/5
@@ -28,7 +26,7 @@ namespace Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Hospede hospede = HospedeDAO.getById(Convert.ToInt32(id), ctx);
+            Hospede hospede = hospedeDAO.getById(Convert.ToInt32(id));
             if (hospede == null)
             {
                 return HttpNotFound();
@@ -56,7 +54,7 @@ namespace Web.Controllers
             if (ModelState.IsValid)
             {
 
-                HospedeDAO.Add(hospede, ctx);
+                hospedeDAO.Add(hospede);
                 return RedirectToAction("Index");
             }
 
@@ -71,7 +69,7 @@ namespace Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Hospede hospede = HospedeDAO.getById(Convert.ToInt32(id), ctx);
+            Hospede hospede = hospedeDAO.getById(Convert.ToInt32(id));
             if (hospede == null)
             {
                 return HttpNotFound();
@@ -86,19 +84,15 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Nome,Cpf,Email,Deletado")] Hospede hospede)
         {
-            Hospede hos = ExistEmail(hospede);
-            if (hos.ID.Equals(hospede.ID)){
 
-                if (ModelState.IsValid)
-                {
-                    HospedeDAO.Update(hospede, ctx);
-                    return RedirectToAction("Index");
-                }
-                return View(hospede);
-            }else
+            if (ModelState.IsValid)
             {
-                return View(hospede);
+                hospedeDAO.Update(hospede);
+                return RedirectToAction("Index");
             }
+            return View(hospede);
+
+
         }
 
         // GET: Hospedes/Delete/5
@@ -108,7 +102,7 @@ namespace Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Hospede hospede = HospedeDAO.getById(Convert.ToInt32(id), ctx);
+            Hospede hospede = hospedeDAO.getById(Convert.ToInt32(id));
             if (hospede == null)
             {
                 return HttpNotFound();
@@ -121,23 +115,14 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Hospede hospede = HospedeDAO.getById(Convert.ToInt32(id), ctx);
-            HospedeDAO.Remove(hospede, ctx);
+            Hospede hospede = hospedeDAO.getById(Convert.ToInt32(id));
+            hospedeDAO.Remove(hospede);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                ctx.Dispose();
-            }
-            base.Dispose(disposing);
         }
 
         private bool ExistCpf(string cpf)
         {
-            Hospede hospede = HospedeDAO.getByCpf(cpf, ctx);
+            Hospede hospede = hospedeDAO.getByCpf(cpf);
             if (hospede != null)
             {
                 return true;
@@ -149,7 +134,7 @@ namespace Web.Controllers
         }
         private bool ExistEmail(string email)
         {
-            Hospede hospede = HospedeDAO.getByEmail(email, ctx);
+            Hospede hospede = hospedeDAO.getByEmail(email);
             if (hospede != null)
             {
                 return true;
@@ -161,7 +146,7 @@ namespace Web.Controllers
         }
         private Hospede ExistEmail(Hospede x)
         {
-            Hospede hospede = HospedeDAO.getByEmail(x.Email, ctx);
+            Hospede hospede = hospedeDAO.getByEmail(x.Email);
             if (hospede != null)
             {
                 return hospede;

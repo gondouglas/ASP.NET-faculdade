@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using EntityModels;
 
 namespace Web.Models
 {
@@ -21,9 +22,16 @@ namespace Web.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("InnDb", throwIfV1Schema: false)
         {
+            Database.SetInitializer<ApplicationDbContext>(
+                new DropCreateDatabaseAlways<ApplicationDbContext>()
+                );
         }
+
+        public DbSet<Hospede> Hospedes { get; set; }
+        public DbSet<Quarto> Quartos { get; set; }
+        public DbSet<Estadia> Estadias { get; set; }
 
         public static ApplicationDbContext Create()
         {

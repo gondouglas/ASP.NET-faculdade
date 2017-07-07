@@ -7,42 +7,45 @@ namespace Web.DAL
 {
     public class EntityBaseDAO<T> where T : EntityModels.EntityBase
     {
-
-        public static void Add(T t, Context context)
+        protected readonly ApplicationDbContext ctx = new ApplicationDbContext();
+        public void Add(T t)
         {
-            context.Set<T>().Add(t);
-            context.SaveChanges();
+            
+            ctx.Set<T>().Add(t);
+            ctx.SaveChanges();
         }
 
-        public static IEnumerable<T> getList(Context context)
+        public IEnumerable<T> getList()
         {
-            return context.Set<T>().ToList();
+            return ctx.Set<T>().ToList();
         }
 
-        public static void Remove(T t, Context context)
+        public void Remove(T t)
         {
             t.Deletado = true;
+            Update(t);
         }
 
-        public static void Active(T t, Context context)
+        public void Active(T t)
         {
             t.Deletado = false;
+            Update(t);
         }
 
-        public static void Update(T t, Context context)
+        public void Update(T t)
         {
-            context.Entry(t).State = System.Data.Entity.EntityState.Modified;
-            context.SaveChanges();
+            ctx.Entry(t).State = System.Data.Entity.EntityState.Modified;
+            ctx.SaveChanges();
         }
 
-        public static T getById(int id, Context context)
+        public  T getById(int id)
         {
-            return context.Set<T>().Find(id);
+            return ctx.Set<T>().Find(id);
         }
 
-        public static IEnumerable<T> getDeletados(bool op, Context context)
+        public  IEnumerable<T> getDeletados(bool op)
         {
-            return context.Set<T>().Where(x => x.Deletado == op);
+            return ctx.Set<T>().Where(x => x.Deletado == op);
         }
     }
 }

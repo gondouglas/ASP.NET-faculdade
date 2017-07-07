@@ -1,24 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using EntityModels;
-using Web.Models;
 using Web.DAL;
+using System.Linq;
 
 namespace Web.Controllers
 {
     public class QuartosController : Controller
     {
-        Context ctx = new Context();
+        private readonly EstadiaDAO estadiaDAO = new EstadiaDAO();
+        private readonly HospedeDAO hospedeDAO = new HospedeDAO();
+        private readonly QuartoDAO quartoDAO = new QuartoDAO();
         // GET: Quartos
         public ActionResult Index()
         {
-            return View(QuartoDAO.getList(ctx));
+            return View(quartoDAO.getDeletados(false).ToList());
         }
 
         // GET: Quartos/Details/5
@@ -28,7 +25,7 @@ namespace Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Quarto quarto = QuartoDAO.getById(Convert.ToInt32(id),ctx);
+            Quarto quarto = quartoDAO.getById(Convert.ToInt32(id));
             if (quarto == null)
             {
                 return HttpNotFound();
@@ -49,7 +46,7 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Numero,Andar,ValorDiaria,Ocupado,Deletado")] Quarto quarto)
         {
-            Quarto q = QuartoDAO.getByNumero(quarto.Numero, ctx);
+            Quarto q = quartoDAO.getByNumero(quarto.Numero);
             if (q != null)
             {
                 return View(quarto);
@@ -58,7 +55,7 @@ namespace Web.Controllers
 
             if (ModelState.IsValid)
             {
-                QuartoDAO.Add(quarto,ctx);
+                quartoDAO.Add(quarto);
                 return RedirectToAction("Index");
             }
 
@@ -67,12 +64,12 @@ namespace Web.Controllers
 
         public ActionResult Livres()
         {
-            return View(QuartoDAO.getLivres(ctx));
+            return View(quartoDAO.getLivres().ToList());
         }
 
         public ActionResult Ocupados()
         {
-            return View(QuartoDAO.getOcupados(ctx));
+            return View(quartoDAO.getOcupados().ToList());
         }
 
         // GET: Quartos/Edit/5
@@ -82,7 +79,7 @@ namespace Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Quarto quarto = QuartoDAO.getById(Convert.ToInt32(id),ctx);
+            Quarto quarto = quartoDAO.getById(Convert.ToInt32(id));
             if (quarto == null)
             {
                 return HttpNotFound();
@@ -99,7 +96,7 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                QuartoDAO.Update(quarto,ctx);
+                quartoDAO.Update(quarto);
                 return RedirectToAction("Index");
             }
             return View(quarto);
@@ -112,7 +109,7 @@ namespace Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Quarto quarto = QuartoDAO.getById(Convert.ToInt32(id),ctx);
+            Quarto quarto = quartoDAO.getById(Convert.ToInt32(id));
             if (quarto == null)
             {
                 return HttpNotFound();
@@ -125,18 +122,9 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Quarto quarto = QuartoDAO.getById(Convert.ToInt32(id),ctx);
-            QuartoDAO.Remove(quarto,ctx);
+            Quarto quarto = quartoDAO.getById(Convert.ToInt32(id));
+            quartoDAO.Remove(quarto);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                ctx.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }
